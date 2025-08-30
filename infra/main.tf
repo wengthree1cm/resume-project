@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 1.6.0"
   required_providers {
-    aws     = { source = "hashicorp/aws",     version = "~> 5.0" }
+    aws     = { source = "hashicorp/aws", version = "~> 5.0" }
     archive = { source = "hashicorp/archive", version = "~> 2.4" }
   }
 }
@@ -44,8 +44,8 @@ data "aws_iam_policy_document" "policy_all" {
   }
 
   statement {
-    effect = "Allow"
-    actions = ["ses:SendEmail", "ses:SendRawEmail"]
+    effect    = "Allow"
+    actions   = ["ses:SendEmail", "ses:SendRawEmail"]
     resources = ["*"]
   }
 
@@ -96,9 +96,9 @@ resource "aws_lambda_function" "visitor" {
   environment {
     variables = {
       TABLE_NAME = data.aws_dynamodb_table.resume.name
-      PK_NAME    = "id"     # 主键列名
-      ITEM_ID    = "key"    # 哪一条记录累计
-      VIEW_ATTR  = "view"   # 计数字段名
+      PK_NAME    = "id"   # 主键列名
+      ITEM_ID    = "key"  # 哪一条记录累计
+      VIEW_ATTR  = "view" # 计数字段名
     }
   }
 }

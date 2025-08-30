@@ -13,7 +13,7 @@ __pycache__/
 infra/.terraform/
 infra/*.tfstate
 infra/*.tfstate.*
-infra/terraform.tfvars   # <- 含密钥/邮箱等敏感变量，务必别传
+infra/terraform.tfvars   
 # 锁文件建议保留在版本库，便于复现
 # （所以不要忽略 .terraform.lock.hcl）
 

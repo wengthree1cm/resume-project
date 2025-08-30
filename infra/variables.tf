@@ -13,3 +13,8 @@ variable "contact_to" {
   type        = string
   description = "Destination email to receive contact form (verify too if SES sandbox)"
 }
+
+variable "site_bucket_name" {
+  type        = string
+  description = "S3 bucket name for static site (must be globally unique)"
+}

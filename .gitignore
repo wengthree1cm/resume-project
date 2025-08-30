@@ -1,0 +1,35 @@
+# ----- OS / IDE -----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ----- Python -----
+venv/
+__pycache__/
+*.pyc
+
+# ----- Terraform -----
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/terraform.tfvars   # <- 含密钥/邮箱等敏感变量，务必别传
+# 锁文件建议保留在版本库，便于复现
+# （所以不要忽略 .terraform.lock.hcl）
+
+# ----- Lambda 构建产物（archive_file 会生成的 zip）-----
+infra/*.zip
+infra/lambda_contact/*.zip
+infra/lambda_visitor/*.zip
+
+# 如果以后在函数目录里用 pip -t . 安装依赖，产生的这些也别提交
+infra/lambda_contact/**/*.dist-info/
+infra/lambda_contact/**/*.egg-info/
+infra/lambda_visitor/**/*.dist-info/
+infra/lambda_visitor/**/*.egg-info/
+
+# ----- Node（如果以后用到）-----
+node_modules/
+
+# ----- draw.io 备份（可选）-----
+assets/**/*.drawio.bkp

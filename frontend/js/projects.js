@@ -3,7 +3,7 @@ const PROJECTS = [
   {
     title: "Scuba Dives 日志平台",
     slug: "scuba-dives",
-    cover: "./assets/projects/dive.png",
+    cover: "./assets/dive.png",
     desc: "记录潜点、海况、能见度与潜伴，前端 Leaflet 地图选点，后端 FastAPI + PostgreSQL，部署在 Render。",
     tech: ["FastAPI", "PostgreSQL", "Leaflet", "Render", "CORS"],
     links: {
@@ -12,14 +12,14 @@ const PROJECTS = [
     }
   },
   {
-    title: "客户流失预测（Churn ML）",
-    slug: "churn-ml",
-    cover: "./assets/projects/churn_cover.jpg",
+    title: "Resume Project",
+    slug: "resume-project",
+    cover: "./assets/resume.png",
     desc: "工业级数据流水线 + FastAPI 推理服务，加入特征工程、模型版本管理与 A/B 评估。",
     tech: ["Python", "XGBoost", "FastAPI", "Optuna", "Docker"],
     links: {
-      demo: "#",
-      code: "https://github.com/yourname/churn-ml"
+      demo: "https://d142g2ii1hj9c0.cloudfront.net/",
+      code: "https://github.com/wengthree1cm/resume-project"
     }
   },
   {

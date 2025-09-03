@@ -5,37 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Projects | Alice Yang</title>
   <link rel="stylesheet" href="./css/projects.css" />
-  <!-- 如果你有全站的通用样式（如 styles.css），也可以一起引入 -->
-  <!-- <link rel="stylesheet" href="./styles.css" /> -->
 </head>
 <body>
-  <!-- 顶部导航：按你现有站点样式替换下面这段即可 -->
   <header class="site-header">
     <nav class="nav">
       <a class="logo" href="./index.html">Alice</a>
       <div class="nav-links">
         <a href="./index.html">Home</a>
         <a class="active" href="./projects.html">Projects</a>
-        <!-- Blog 已删除 -->
         <a href="./resume/index.html">Resume</a>
-        <!-- 你其他想保留的链接 -->
       </div>
     </nav>
   </header>
 
   <main class="container">
     <h1 class="page-title">Projects</h1>
-    <p class="page-subtitle">我做过的一些项目：点击卡片查看详情、技术栈与链接。</p>
+    <p class="page-subtitle">我做过的一些项目（点击卡片查看详情）。</p>
 
-    <!-- 过滤与搜索（可选） -->
-    <section class="toolbar">
-      <input id="searchInput" class="search" type="search" placeholder="搜索项目或技术栈…" />
-      <select id="techFilter" class="filter">
-        <option value="">按技术栈筛选</option>
-      </select>
-    </section>
-
-    <!-- 网格容器：JS 动态注入卡片 -->
+    <!-- 固定两列网格 -->
     <section id="grid" class="grid"></section>
   </main>
 
@@ -57,9 +44,6 @@
   </footer>
 
   <script src="./js/projects.js"></script>
-  <script>
-    // 页脚年份
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact • Changming Liu</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./css/theme.css" />
+  <link rel="stylesheet" href="./css/contact.css" />
+</head>
+
+<body>
+  <header class="nav">
+    <nav class="nav-inner">
+      <a class="brand" href="./">CL</a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a class="nav-link" href="./">Home</a></li>
+        <li><a class="nav-link" target="_blank" href="https://naveend3v.medium.com/">Blog</a></li>
+        <li><a class="nav-link" href="./contact.html">Contact</a></li>
+        <li><a class="btn ghost" target="_blank" href="./resume/Naveen_Raj_Resume.pdf">
+          <i class="fa-regular fa-file-lines"></i> Resume (PDF)
+        </a></li>
+      </ul>
+      <button class="hamburger" id="navToggle" aria-label="Menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="section reveal">
+      <h1 class="title">Get in touch</h1>
+      <p class="lede">
+        Have a question, collaboration idea, or opportunity? Drop me a line — I usually reply within 24–48 hours.
+      </p>
+    </section>
+
+    <section class="section reveal">
+      <form id="contact-form" class="form-grid" novalidate>
+        <div class="field">
+          <input class="input" type="text" name="name" id="name" placeholder=" " required autocomplete="name" />
+          <label class="label" for="name">Full name</label>
+        </div>
+
+        <div class="field">
+          <input class="input" type="email" name="email" id="email" placeholder=" " required autocomplete="email" />
+          <label class="label" for="email">Email</label>
+        </div>
+
+        <div class="field row-2">
+          <input class="input" type="text" name="subject" id="subject" placeholder=" " required />
+          <label class="label" for="subject">Subject</label>
+        </div>
+
+        <div class="field row-2">
+          <textarea class="textarea" name="message" id="message" placeholder=" " required></textarea>
+          <label class="label" for="message">Message</label>
+        </div>
+
+        <input class="honeypot" type="text" name="company" tabindex="-1" autocomplete="off" />
+
+        <button class="btn primary" id="submit-btn" type="submit">
+          <span id="btn-text">Send message</span>
+        </button>
+
+        <p id="status" class="status row-2" aria-live="polite"></p>
+
+        <div class="foot row-2">
+          <span class="chip">AWS Lambda</span>
+          <span class="chip">API Gateway</span>
+          <span class="chip">Amazon SES</span>
+          <span class="chip">Terraform</span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <ul class="social">
+        <li><a href="mailto:changming_liu@g.harvard.edu"><i class="fa-solid fa-envelope"></i> Mail</a></li>
+        <li><a target="_blank" rel="noopener" href="https://www.linkedin.com/in/changming-liu-776979271"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+        <li><a target="_blank" rel="noopener" href="https://github.com/naveend3v"><i class="fa-brands fa-github"></i> GitHub</a></li>
+      </ul>
+      <p class="tiny">© Changming Liu</p>
+    </div>
+  </footer>
+
+  <script>
+    const t=document.getElementById('navToggle'), m=document.getElementById('navMenu');
+    if(t) t.onclick=()=>m.classList.toggle('open');
+  </script>
+
+  <script>
+    const CONTACT_API = "https://2ohetm89ie.execute-api.us-east-1.amazonaws.com/contact"; 
+
+    const form   = document.getElementById('contact-form');
+    const btn    = document.getElementById('submit-btn');
+    const btnTxt = document.getElementById('btn-text');
+    const status = document.getElementById('status');
+
+    function setLoading(isLoading){
+      if(isLoading){
+        btn.disabled = true;
+        btnTxt.innerHTML = '<span class="spinner" aria-hidden="true"></span>Sending...';
+      }else{
+        btn.disabled = false;
+        btnTxt.textContent = 'Send message';
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'status';
+      status.textContent = '';
+
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        subject: form.subject.value.trim(),
+        message: form.message.value.trim(),
+        company: form.company.value || "" 
+      };
+      if(!payload.name || !payload.email || !payload.subject || !payload.message){
+        status.classList.add('show','error');
+        status.textContent = 'Please complete all fields.';
+        return;
+      }
+
+      setLoading(true);
+      try{
+        const res  = await fetch(CONTACT_API, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(()=>({}));
+
+        if(!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+
+        status.classList.add('show','success');
+        status.textContent = '✅ Sent! I will get back to you soon.';
+        form.reset();
+      }catch(err){
+        console.error(err);
+        status.classList.add('show','error');
+        status.textContent = '❌ Failed to send. Please try again later.';
+      }finally{
+        setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

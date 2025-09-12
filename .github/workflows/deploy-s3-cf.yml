@@ -1,0 +1,55 @@
+name: Deploy frontend to S3 + CloudFronts
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-s3-cf.yml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write      
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.ROLE_ARN }}  
+          aws-region: us-east-1
+
+      - name: Ensure AWS CLI
+        run: |
+          if ! command -v aws >/dev/null 2>&1; then
+            sudo apt-get update && sudo apt-get install -y awscli
+          fi
+          aws --version
+          aws sts get-caller-identity
+
+      - name: Sync static assets (long cache)
+        run: |
+          aws s3 sync frontend/ s3://${{ vars.SITE_BUCKET }}/ \
+            --delete \
+            --exclude "*.html" \
+            --cache-control "public,max-age=31536000,immutable"
+
+      - name: Sync HTML (no-store)
+        run: |
+          aws s3 sync frontend/ s3://${{ vars.SITE_BUCKET }}/ \
+            --delete \
+            --exclude "*" --include "*.html" \
+            --cache-control "no-store"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ vars.CF_DIST_ID }} \
+            --paths "/*"

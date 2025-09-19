@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects | Alice Yang</title>
+  <link rel="stylesheet" href="./css/projects.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="./index.html">Alice</a>
+      <div class="nav-links">
+        <a href="./index.html">Home</a>
+        <a class="active" href="./projects.html">Projects</a>
+        <a href="./resume/index.html">Resume</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Projects</h1>
+    <p class="page-subtitle">Some Project I have done</p>
+
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" title="Close" data-close>&times;</button>
+      <img id="modalImg" class="modal__cover" alt="project cover" loading="lazy" />
+      <h2 id="modalTitle" class="modal__title"></h2>
+      <p id="modalDesc" class="modal__desc"></p>
+      <div class="modal__tags" id="modalTags"></div>
+      <div class="modal__links" id="modalLinks"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Changming Liu</p>
+  </footer>
+
+  <script src="./js/projects.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
